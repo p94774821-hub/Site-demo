@@ -13,10 +13,9 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_change_me';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Y2k2024@';
 
-// Hash da senha (gerado uma vez)
+// Hash da senha
 let ADMIN_PASSWORD_HASH = '';
 
-// Inicializa o hash da senha
 async function initPasswordHash() {
   try {
     ADMIN_PASSWORD_HASH = await bcrypt.hash(ADMIN_PASSWORD, 10);
@@ -50,14 +49,12 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// ===== MIDDLEWARE DE BLOQUEIO MOBILE (OPCIONAL) =====
+// ===== MIDDLEWARE DE BLOQUEIO MOBILE =====
 function blockMobile(req, res, next) {
   const userAgent = req.headers['user-agent'] || '';
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
   
-  // Apenas bloqueia para rotas de API (não para o site público)
   if (isMobile && req.path.startsWith('/api/')) {
-    // Permite login mesmo no mobile
     if (req.path === '/api/login') {
       return next();
     }
@@ -66,7 +63,6 @@ function blockMobile(req, res, next) {
   next();
 }
 
-// Aplica bloqueio mobile nas rotas da API
 app.use('/api', blockMobile);
 
 // ===== ROTAS PÚBLICAS =====
@@ -87,14 +83,12 @@ app.post('/api/login', async (req, res) => {
   }
   
   try {
-    // Verifica a senha com bcrypt
     const isValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
     
     if (!isValid) {
       return res.status(401).json({ error: 'Senha incorreta' });
     }
     
-    // Gera token JWT (expira em 24h)
     const token = jwt.sign(
       { user: 'admin', role: 'administrator' },
       JWT_SECRET,
@@ -104,7 +98,7 @@ app.post('/api/login', async (req, res) => {
     res.json({
       success: true,
       token: token,
-      expiresIn: 86400 // 24 horas em segundos
+      expiresIn: 86400
     });
   } catch (error) {
     console.error('Erro no login:', error);
@@ -138,12 +132,10 @@ app.get('/api/content', (req, res) => {
 app.post('/api/save', authenticateToken, (req, res) => {
   const { content } = req.body;
   
-  // Validação de entrada
   if (!content || typeof content !== 'object') {
     return res.status(400).json({ error: 'Conteúdo inválido' });
   }
   
-  // Sanitização básica
   const sanitizedContent = sanitizeContent(content);
   
   try {
@@ -172,6 +164,245 @@ app.get('/api/verify', authenticateToken, (req, res) => {
   });
 });
 
+// ===== DADOS DOS BOTS =====
+const botsData = {
+  insight: {
+    id: 'insight',
+    nome: 'Insight',
+    avatar: 'fa-lightbulb',
+    status: 'online',
+    servidores: 47,
+    usuarios: 12500,
+    comandos: 342,
+    ping: 42,
+    uptime: '99.98%',
+    versao: '2.1.0',
+    ultimaAtualizacao: '2026-04-10',
+    token: 'INSIGHT_TOKEN_123',
+    descricao: 'Sistema de sugestões com votação e análise de engajamento'
+  },
+  atlas: {
+    id: 'atlas',
+    nome: 'Atlas',
+    avatar: 'fa-building',
+    status: 'online',
+    servidores: 32,
+    usuarios: 8900,
+    comandos: 156,
+    ping: 38,
+    uptime: '99.95%',
+    versao: '1.5.2',
+    ultimaAtualizacao: '2026-04-09',
+    token: 'ATLAS_TOKEN_456',
+    descricao: 'Sistema de registro e gerenciamento de imóveis para servidores RP'
+  },
+  vehix: {
+    id: 'vehix',
+    nome: 'Vehix',
+    avatar: 'fa-car',
+    status: 'online',
+    servidores: 28,
+    usuarios: 7200,
+    comandos: 98,
+    ping: 45,
+    uptime: '99.92%',
+    versao: '1.2.0',
+    ultimaAtualizacao: '2026-04-08',
+    token: 'VEHIX_TOKEN_789',
+    descricao: 'Sistema completo de registro e controle de veículos'
+  },
+  hostville: {
+    id: 'hostville',
+    nome: 'HostVille-BOT',
+    avatar: 'fa-shield-alt',
+    status: 'online',
+    servidores: 89,
+    usuarios: 24000,
+    comandos: 567,
+    ping: 35,
+    uptime: '99.99%',
+    versao: '3.0.1',
+    ultimaAtualizacao: '2026-04-10',
+    token: 'HOSTVILLE_TOKEN_ABC',
+    descricao: 'Bot principal de moderação e gerenciamento'
+  },
+  hostvilleWarn: {
+    id: 'hostvilleWarn',
+    nome: 'HostVille Warn System',
+    avatar: 'fa-exclamation-triangle',
+    status: 'online',
+    servidores: 76,
+    usuarios: 21000,
+    comandos: 234,
+    ping: 40,
+    uptime: '99.97%',
+    versao: '2.0.0',
+    ultimaAtualizacao: '2026-04-10',
+    token: 'HOSTVILLE_WARN_TOKEN_DEF',
+    descricao: 'Sistema avançado de warns e punições'
+  },
+  hostvilleUtility: {
+    id: 'hostvilleUtility',
+    nome: 'HostVille Utility Bot',
+    avatar: 'fa-tools',
+    status: 'manutencao',
+    servidores: 54,
+    usuarios: 15000,
+    comandos: 189,
+    ping: 55,
+    uptime: '98.50%',
+    versao: '1.8.5',
+    ultimaAtualizacao: '2026-04-07',
+    token: 'HOSTVILLE_UTILITY_TOKEN_GHI',
+    descricao: 'Bot utilitário com funções diversas'
+  }
+};
+
+// ===== API DE BOTS =====
+
+// Rota para obter todos os bots (protegida)
+app.get('/api/bots', authenticateToken, (req, res) => {
+  const bots = Object.values(botsData).map(bot => ({
+    id: bot.id,
+    nome: bot.nome,
+    avatar: bot.avatar,
+    status: bot.status,
+    servidores: bot.servidores,
+    usuarios: bot.usuarios,
+    comandos: bot.comandos,
+    ping: bot.ping,
+    uptime: bot.uptime,
+    versao: bot.versao,
+    ultimaAtualizacao: bot.ultimaAtualizacao,
+    descricao: bot.descricao
+    // Token NÃO é enviado por segurança
+  }));
+  
+  res.json({
+    success: true,
+    bots: bots,
+    totalBots: bots.length,
+    botsOnline: bots.filter(b => b.status === 'online').length,
+    totalServidores: bots.reduce((acc, b) => acc + b.servidores, 0),
+    totalUsuarios: bots.reduce((acc, b) => acc + b.usuarios, 0),
+    updatedAt: new Date().toISOString()
+  });
+});
+
+// Rota para obter um bot específico (protegida)
+app.get('/api/bots/:id', authenticateToken, (req, res) => {
+  const { id } = req.params;
+  const bot = botsData[id];
+  
+  if (!bot) {
+    return res.status(404).json({ error: 'Bot não encontrado' });
+  }
+  
+  // Não envia o token por segurança
+  const { token, ...botSemToken } = bot;
+  
+  res.json({
+    success: true,
+    bot: botSemToken
+  });
+});
+
+// Rota para obter detalhes COMPLETOS de um bot (inclui token - MUITO PROTEGIDA)
+app.get('/api/bots/:id/full', authenticateToken, (req, res) => {
+  const { id } = req.params;
+  const bot = botsData[id];
+  
+  if (!bot) {
+    return res.status(404).json({ error: 'Bot não encontrado' });
+  }
+  
+  // Verifica se é admin (dupla verificação)
+  if (req.user.role !== 'administrator') {
+    return res.status(403).json({ error: 'Permissão negada' });
+  }
+  
+  res.json({
+    success: true,
+    bot: bot
+  });
+});
+
+// Rota para atualizar status de um bot (protegida)
+app.post('/api/bots/:id/status', authenticateToken, (req, res) => {
+  const { id } = req.params;
+  const { status, servidores, ping, comandos, uptime } = req.body;
+  
+  if (!botsData[id]) {
+    return res.status(404).json({ error: 'Bot não encontrado' });
+  }
+  
+  if (status) botsData[id].status = status;
+  if (servidores !== undefined) botsData[id].servidores = parseInt(servidores) || 0;
+  if (ping !== undefined) botsData[id].ping = parseInt(ping) || 0;
+  if (comandos !== undefined) botsData[id].comandos = parseInt(comandos) || 0;
+  if (uptime) botsData[id].uptime = uptime;
+  
+  botsData[id].ultimaAtualizacao = new Date().toISOString().split('T')[0];
+  
+  console.log(`✅ Bot ${botsData[id].nome} atualizado por ${req.user.user}`);
+  
+  res.json({
+    success: true,
+    bot: {
+      id: botsData[id].id,
+      nome: botsData[id].nome,
+      status: botsData[id].status,
+      servidores: botsData[id].servidores,
+      ping: botsData[id].ping,
+      uptime: botsData[id].uptime,
+      ultimaAtualizacao: botsData[id].ultimaAtualizacao
+    },
+    message: 'Status atualizado com sucesso!'
+  });
+});
+
+// Rota para reiniciar um bot (simulado)
+app.post('/api/bots/:id/restart', authenticateToken, (req, res) => {
+  const { id } = req.params;
+  
+  if (!botsData[id]) {
+    return res.status(404).json({ error: 'Bot não encontrado' });
+  }
+  
+  // Simula reinicialização
+  botsData[id].status = 'manutencao';
+  
+  setTimeout(() => {
+    botsData[id].status = 'online';
+    botsData[id].ultimaAtualizacao = new Date().toISOString().split('T')[0];
+  }, 3000);
+  
+  res.json({
+    success: true,
+    message: `Bot ${botsData[id].nome} está reiniciando...`,
+    estimatedTime: '3 segundos'
+  });
+});
+
+// Rota para estatísticas gerais dos bots
+app.get('/api/bots/stats/summary', authenticateToken, (req, res) => {
+  const bots = Object.values(botsData);
+  
+  res.json({
+    success: true,
+    summary: {
+      total: bots.length,
+      online: bots.filter(b => b.status === 'online').length,
+      manutencao: bots.filter(b => b.status === 'manutencao').length,
+      offline: bots.filter(b => b.status === 'offline').length,
+      totalServidores: bots.reduce((acc, b) => acc + b.servidores, 0),
+      totalUsuarios: bots.reduce((acc, b) => acc + b.usuarios, 0),
+      totalComandos: bots.reduce((acc, b) => acc + b.comandos, 0),
+      pingMedio: Math.round(bots.reduce((acc, b) => acc + b.ping, 0) / bots.length)
+    }
+  });
+});
+
 // ===== FUNÇÕES AUXILIARES =====
 function getDefaultContent() {
   return {
@@ -187,53 +418,17 @@ function getDefaultContent() {
       { valor: 1, label: "Ano de XP" }
     ],
     projetos: [
-      {
-        id: "proj_1",
-        nome: "Insight",
-        tipo: "Sistema de Sugestões",
-        descricao: "Sistema completo de sugestões com votação, comentários e análise de engajamento.",
-        icone: "fa-lightbulb"
-      },
-      {
-        id: "proj_2",
-        nome: "Atlas",
-        tipo: "Registro de Imóveis",
-        descricao: "Sistema de registro e gerenciamento de propriedades para servidores de RP.",
-        icone: "fa-building"
-      },
-      {
-        id: "proj_3",
-        nome: "Vehix",
-        tipo: "Registro de Veículos",
-        descricao: "Sistema completo de registro e controle de veículos com painel administrativo.",
-        icone: "fa-car"
-      },
-      {
-        id: "proj_4",
-        nome: "HostVille Services",
-        tipo: "Moderação & Staff",
-        descricao: "Bots de moderação, sistema de warns e avaliação de equipe staff.",
-        icone: "fa-shield-alt"
-      },
-      {
-        id: "proj_5",
-        nome: "Cidade de Deus RP",
-        tipo: "WhiteList Completa",
-        descricao: "Bot completo de whitelist para servidor de Roleplay com todas as funcionalidades.",
-        icone: "fa-list-check"
-      },
-      {
-        id: "proj_6",
-        nome: "Seu Projeto",
-        tipo: "Sob Demanda",
-        descricao: "Precisa de um sistema personalizado? Entre em contato para desenvolvermos juntos.",
-        icone: "fa-plus-circle"
-      }
+      { id: "proj_1", nome: "Insight", tipo: "Sistema de Sugestões", descricao: "Sistema completo de sugestões com votação.", icone: "fa-lightbulb" },
+      { id: "proj_2", nome: "Atlas", tipo: "Registro de Imóveis", descricao: "Sistema de registro de propriedades para RP.", icone: "fa-building" },
+      { id: "proj_3", nome: "Vehix", tipo: "Registro de Veículos", descricao: "Sistema completo de registro de veículos.", icone: "fa-car" },
+      { id: "proj_4", nome: "HostVille Services", tipo: "Moderação & Staff", descricao: "Bots de moderação e warns.", icone: "fa-shield-alt" },
+      { id: "proj_5", nome: "Cidade de Deus RP", tipo: "WhiteList Completa", descricao: "Bot completo de whitelist para RP.", icone: "fa-list-check" },
+      { id: "proj_6", nome: "Seu Projeto", tipo: "Sob Demanda", descricao: "Precisa de um sistema personalizado?", icone: "fa-plus-circle" }
     ],
     sobre: {
       nome: "Isac",
       bio: "𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍",
-      texto: "Meu nome é Isac, desenvolvedor de bots e sistemas para Discord com 1 ano de experiência em JavaScript e Python. Comecei criando pequenas automações e hoje desenvolvo sistemas completos de whitelist, moderação e gestão.\n\nMinha paixão por lógica e resolução de problemas vem da matemática, onde conquistei o bicampeonato paulista olímpico. Essa mesma lógica aplico no desenvolvimento de bots eficientes e bem estruturados.",
+      texto: "Meu nome é Isac, desenvolvedor de bots e sistemas para Discord com 1 ano de experiência em JavaScript e Python.",
       skills: ["JavaScript", "Python", "HTML", "Discord.js", "Node.js", "Automação"]
     },
     contato: {
@@ -246,10 +441,8 @@ function getDefaultContent() {
 }
 
 function sanitizeContent(content) {
-  // Função de sanitização para evitar XSS e dados maliciosos
   const sanitized = { ...content };
   
-  // Sanitiza strings
   if (sanitized.hero) {
     sanitized.hero.badge = String(sanitized.hero.badge || '').trim().substring(0, 100);
     sanitized.hero.titulo = String(sanitized.hero.titulo || '').trim().substring(0, 200);
@@ -257,7 +450,6 @@ function sanitizeContent(content) {
     sanitized.hero.descricao = String(sanitized.hero.descricao || '').trim().substring(0, 1000);
   }
   
-  // Sanitiza stats
   if (Array.isArray(sanitized.stats)) {
     sanitized.stats = sanitized.stats.map(stat => ({
       valor: parseInt(stat.valor) || 0,
@@ -265,7 +457,6 @@ function sanitizeContent(content) {
     }));
   }
   
-  // Sanitiza projetos
   if (Array.isArray(sanitized.projetos)) {
     sanitized.projetos = sanitized.projetos.map(proj => ({
       id: proj.id || 'proj_' + Date.now() + '_' + Math.random().toString(36),
@@ -276,19 +467,15 @@ function sanitizeContent(content) {
     }));
   }
   
-  // Sanitiza sobre
   if (sanitized.sobre) {
     sanitized.sobre.nome = String(sanitized.sobre.nome || '').trim().substring(0, 100);
     sanitized.sobre.bio = String(sanitized.sobre.bio || '').trim().substring(0, 500);
     sanitized.sobre.texto = String(sanitized.sobre.texto || '').trim().substring(0, 2000);
     if (Array.isArray(sanitized.sobre.skills)) {
-      sanitized.sobre.skills = sanitized.sobre.skills
-        .map(s => String(s).trim().substring(0, 50))
-        .filter(s => s.length > 0);
+      sanitized.sobre.skills = sanitized.sobre.skills.map(s => String(s).trim().substring(0, 50)).filter(s => s.length > 0);
     }
   }
   
-  // Sanitiza contato
   if (sanitized.contato) {
     sanitized.contato.discord = String(sanitized.contato.discord || '').trim().substring(0, 100);
     sanitized.contato.email = String(sanitized.contato.email || '').trim().toLowerCase().substring(0, 100);
@@ -303,5 +490,6 @@ function sanitizeContent(content) {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`🔐 JWT configurado com segurança`);
+  console.log(`🤖 Monitor de Bots ativo`);
   console.log(`📁 Diretório: ${__dirname}`);
 });
