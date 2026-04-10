@@ -164,7 +164,7 @@ app.get('/api/verify', authenticateToken, (req, res) => {
   });
 });
 
-// ===== DADOS DOS BOTS (COM TOKENS DO .ENV) =====
+// ===== DADOS DOS BOTS (APENAS 3 BOTS) =====
 const botsData = {
   insight: {
     id: 'insight',
@@ -214,7 +214,6 @@ const botsData = {
 };
 
 // ===== ENDPOINT PARA OS BOTS ATUALIZAREM SEU STATUS (HEARTBEAT) =====
-// Este endpoint NÃO requer JWT, apenas o token do bot
 app.post('/api/bot/heartbeat', (req, res) => {
   const { botId, token, status, servidores, usuarios, comandos, ping, uptime, versao } = req.body;
   
@@ -253,8 +252,6 @@ app.post('/api/bot/heartbeat', (req, res) => {
 });
 
 // ===== API DE BOTS =====
-
-// Rota para obter todos os bots (protegida - sem tokens)
 app.get('/api/bots', authenticateToken, (req, res) => {
   const bots = Object.values(botsData).map(bot => ({
     id: bot.id,
@@ -279,122 +276,6 @@ app.get('/api/bots', authenticateToken, (req, res) => {
     totalServidores: bots.reduce((acc, b) => acc + b.servidores, 0),
     totalUsuarios: bots.reduce((acc, b) => acc + b.usuarios, 0),
     updatedAt: new Date().toISOString()
-  });
-});
-
-// Rota para obter um bot específico (protegida - sem token)
-app.get('/api/bots/:id', authenticateToken, (req, res) => {
-  const { id } = req.params;
-  const bot = botsData[id];
-  
-  if (!bot) {
-    return res.status(404).json({ error: 'Bot não encontrado' });
-  }
-  
-  const { token, ...botSemToken } = bot;
-  
-  res.json({
-    success: true,
-    bot: botSemToken
-  });
-});
-
-// Rota para obter token de um bot (MUITO PROTEGIDA)
-app.get('/api/bots/:id/token', authenticateToken, (req, res) => {
-  const { id } = req.params;
-  const bot = botsData[id];
-  
-  if (!bot) {
-    return res.status(404).json({ error: 'Bot não encontrado' });
-  }
-  
-  if (req.user.role !== 'administrator') {
-    return res.status(403).json({ error: 'Permissão negada' });
-  }
-  
-  res.json({
-    success: true,
-    bot: {
-      id: bot.id,
-      nome: bot.nome,
-      token: bot.token
-    }
-  });
-});
-
-// Rota para atualizar status de um bot (protegida)
-app.post('/api/bots/:id/status', authenticateToken, (req, res) => {
-  const { id } = req.params;
-  const { status, servidores, ping, comandos, uptime } = req.body;
-  
-  if (!botsData[id]) {
-    return res.status(404).json({ error: 'Bot não encontrado' });
-  }
-  
-  if (status) botsData[id].status = status;
-  if (servidores !== undefined) botsData[id].servidores = parseInt(servidores) || 0;
-  if (ping !== undefined) botsData[id].ping = parseInt(ping) || 0;
-  if (comandos !== undefined) botsData[id].comandos = parseInt(comandos) || 0;
-  if (uptime) botsData[id].uptime = uptime;
-  
-  botsData[id].ultimaAtualizacao = new Date().toISOString().split('T')[0];
-  
-  console.log(`✅ Bot ${botsData[id].nome} atualizado por ${req.user.user}`);
-  
-  res.json({
-    success: true,
-    bot: {
-      id: botsData[id].id,
-      nome: botsData[id].nome,
-      status: botsData[id].status,
-      servidores: botsData[id].servidores,
-      ping: botsData[id].ping,
-      uptime: botsData[id].uptime,
-      ultimaAtualizacao: botsData[id].ultimaAtualizacao
-    },
-    message: 'Status atualizado com sucesso!'
-  });
-});
-
-// Rota para reiniciar um bot (simulado)
-app.post('/api/bots/:id/restart', authenticateToken, (req, res) => {
-  const { id } = req.params;
-  
-  if (!botsData[id]) {
-    return res.status(404).json({ error: 'Bot não encontrado' });
-  }
-  
-  botsData[id].status = 'manutencao';
-  
-  setTimeout(() => {
-    botsData[id].status = 'online';
-    botsData[id].ultimaAtualizacao = new Date().toISOString().split('T')[0];
-    console.log(`✅ Bot ${botsData[id].nome} reiniciado com sucesso`);
-  }, 3000);
-  
-  res.json({
-    success: true,
-    message: `Bot ${botsData[id].nome} está reiniciando...`,
-    estimatedTime: '3 segundos'
-  });
-});
-
-// Rota para estatísticas gerais dos bots
-app.get('/api/bots/stats/summary', authenticateToken, (req, res) => {
-  const bots = Object.values(botsData);
-  
-  res.json({
-    success: true,
-    summary: {
-      total: bots.length,
-      online: bots.filter(b => b.status === 'online').length,
-      manutencao: bots.filter(b => b.status === 'manutencao').length,
-      offline: bots.filter(b => b.status === 'offline').length,
-      totalServidores: bots.reduce((acc, b) => acc + b.servidores, 0),
-      totalUsuarios: bots.reduce((acc, b) => acc + b.usuarios, 0),
-      totalComandos: bots.reduce((acc, b) => acc + b.comandos, 0),
-      pingMedio: Math.round(bots.reduce((acc, b) => acc + b.ping, 0) / bots.length)
-    }
   });
 });
 
@@ -483,6 +364,6 @@ app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`🔐 JWT configurado com segurança`);
   console.log(`🤖 Monitor de Bots ativo (${Object.keys(botsData).length} bots)`);
-  console.log(`📡 Endpoint Heartbeat: /api/bot/heartbeat`);
+  console.log(`📡 Endpoint Heartbeat: POST /api/bot/heartbeat`);
   console.log(`📁 Diretório: ${__dirname}`);
 });
