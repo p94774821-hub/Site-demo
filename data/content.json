@@ -6,46 +6,61 @@
     "descricao": "Sistemas personalizados para seu servidor Discord. Automação inteligente, moderação eficiente e whitelist profissional."
   },
   "stats": [
-    { "valor": 150, "label": "Usuários Ajudados" },
-    { "valor": 6, "label": "Projetos Ativos" },
-    { "valor": 1, "label": "Ano de XP" }
+    {
+      "valor": 150,
+      "label": "Usuários Ajudados"
+    },
+    {
+      "valor": 6,
+      "label": "Projetos Ativos"
+    },
+    {
+      "valor": 1,
+      "label": "Ano de XP"
+    }
   ],
   "projetos": [
     {
       "nome": "Insight",
       "tipo": "Sistema de Sugestões",
-      "descricao": "Sistema completo de sugestões com votação e análise de engajamento.",
+      "descricao": "Sistema completo de sugestões com votação, comentários e análise de engajamento.",
       "icone": "fa-lightbulb"
     },
     {
       "nome": "Atlas",
       "tipo": "Registro de Imóveis",
-      "descricao": "Sistema de registro e gerenciamento de propriedades para servidores RP.",
+      "descricao": "Sistema de registro e gerenciamento de propriedades para servidores de RP.",
       "icone": "fa-building"
     },
     {
       "nome": "Vehix",
       "tipo": "Registro de Veículos",
-      "descricao": "Sistema completo de registro e controle de veículos.",
+      "descricao": "Sistema completo de registro e controle de veículos com painel administrativo.",
       "icone": "fa-car"
     },
     {
       "nome": "HostVille Services",
       "tipo": "Moderação & Staff",
-      "descricao": "Bots de moderação, sistema de warns e avaliação de staff.",
+      "descricao": "Bots de moderação, sistema de warns e avaliação de equipe staff.",
       "icone": "fa-shield-alt"
     },
     {
       "nome": "Cidade de Deus RP",
       "tipo": "WhiteList Completa",
-      "descricao": "Bot completo de whitelist para servidor de Roleplay.",
+      "descricao": "Bot completo de whitelist para servidor de Roleplay com todas as funcionalidades.",
       "icone": "fa-list-check"
+    },
+    {
+      "nome": "Seu Projeto",
+      "tipo": "Sob Demanda",
+      "descricao": "Precisa de um sistema personalizado? Entre em contato para desenvolvermos juntos.",
+      "icone": "fa-plus-circle"
     }
   ],
   "sobre": {
     "nome": "Isac",
     "bio": "𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍",
-    "texto": "Meu nome é Isac, desenvolvedor de bots e sistemas para Discord com 1 ano de experiência em JavaScript e Python.",
+    "texto": "Meu nome é Isac, desenvolvedor de bots e sistemas para Discord com 1 ano de experiência em JavaScript e Python. Comecei criando pequenas automações e hoje desenvolvo sistemas completos de whitelist, moderação e gestão.\n\nMinha paixão por lógica e resolução de problemas vem da matemática, onde conquistei o bicampeonato paulista olímpico. Essa mesma lógica aplico no desenvolvimento de bots eficientes e bem estruturados.",
     "skills": ["JavaScript", "Python", "HTML", "Discord.js", "Node.js", "Automação"]
   },
   "contato": {
