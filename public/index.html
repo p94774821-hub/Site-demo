@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Y2k_Nat</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at top, #0f0f0f, #050505);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* PARTICLES */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* CONTAINER */
+.container {
+  text-align: center;
+  padding: 120px 20px;
+}
+
+/* TITLE */
+h1 {
+  font-size: 4rem;
+  color: #a855f7;
+  text-shadow: 0 0 30px #a855f7, 0 0 60px #9333ea;
+  animation: fadeUp 1s ease forwards;
+}
+
+/* SUB */
+p {
+  margin-top: 10px;
+  color: #aaa;
+  animation: fadeUp 1.5s ease forwards;
+}
+
+/* PROJECTS */
+.projects {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* CARD */
+.card {
+  background: rgba(20,20,20,0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 20px;
+  width: 260px;
+  transition: 0.4s;
+  transform: perspective(1000px) rotateX(0) rotateY(0);
+}
+
+/* HOVER 3D */
+.card:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale(1.05);
+  border-color: #a855f7;
+  box-shadow: 0 0 30px rgba(168,85,247,0.5);
+}
+
+/* TITLE CARD */
+.card h2 {
+  color: #a855f7;
+  margin-bottom: 10px;
+}
+
+/* DESC */
+.card p {
+  font-size: 0.95rem;
+  color: #bbb;
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+footer {
+  margin-top: 120px;
+  text-align: center;
+  color: #555;
+  padding-bottom: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+  <h1>Y2k_Nat</h1>
+  <p>Desenvolvedor de Bots • Sistemas • Automação</p>
+
+  <div class="projects">
+
+    <div class="card">
+      <h2>Vehix</h2>
+      <p>Sistema de whitelist completo com automação, tickets e aprovação staff.</p>
+    </div>
+
+    <div class="card">
+      <h2>Atlas</h2>
+      <p>Gerenciamento avançado e automação de servidores Discord.</p>
+    </div>
+
+    <div class="card">
+      <h2>Insight</h2>
+      <p>Sistema de sugestões moderno com interação via botões.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+© 2026 Y2k_Nat
+</footer>
+
+<script>
+// PARTICLES
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: Math.random() - 0.5,
+    dy: Math.random() - 0.5
+  });
+}
+
+function animate() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = "#a855f7";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+  </html>
