@@ -255,6 +255,21 @@ const botsData = {
     ultimaAtualizacao: '2026-04-07',
     token: process.env.HOSTVILLE_UTILITY_TOKEN || 'HOSTVILLE_UTILITY_TOKEN_GHI',
     descricao: 'Bot utilitário com funções diversas'
+  },
+  cidadeDeusRP: {
+    id: 'cidadeDeusRP',
+    nome: 'Cidade de Deus RP',
+    avatar: 'fa-list-check',
+    status: 'online',
+    servidores: 23,
+    usuarios: 5800,
+    comandos: 78,
+    ping: 48,
+    uptime: '99.93%',
+    versao: '1.0.0',
+    ultimaAtualizacao: '2026-04-10',
+    token: process.env.CIDADE_DEUS_RP_TOKEN || 'CIDADE_DEUS_RP_TOKEN_JKL',
+    descricao: 'Bot completo de whitelist para servidor de Roleplay'
   }
 };
 
@@ -314,7 +329,6 @@ app.get('/api/bots/:id/token', authenticateToken, (req, res) => {
     return res.status(404).json({ error: 'Bot não encontrado' });
   }
   
-  // Verifica se é admin
   if (req.user.role !== 'administrator') {
     return res.status(403).json({ error: 'Permissão negada' });
   }
@@ -416,7 +430,7 @@ function getDefaultContent() {
     },
     stats: [
       { valor: 150, label: "Usuários Ajudados" },
-      { valor: 6, label: "Projetos Ativos" },
+      { valor: 7, label: "Projetos Ativos" },
       { valor: 1, label: "Ano de XP" }
     ],
     projetos: [
@@ -425,7 +439,8 @@ function getDefaultContent() {
       { id: "proj_3", nome: "Vehix", tipo: "Registro de Veículos", descricao: "Sistema completo de registro de veículos.", icone: "fa-car" },
       { id: "proj_4", nome: "HostVille Services", tipo: "Moderação & Staff", descricao: "Bots de moderação e warns.", icone: "fa-shield-alt" },
       { id: "proj_5", nome: "Cidade de Deus RP", tipo: "WhiteList Completa", descricao: "Bot completo de whitelist para RP.", icone: "fa-list-check" },
-      { id: "proj_6", nome: "Seu Projeto", tipo: "Sob Demanda", descricao: "Precisa de um sistema personalizado?", icone: "fa-plus-circle" }
+      { id: "proj_6", nome: "HostVille Warn", tipo: "Sistema de Warns", descricao: "Sistema avançado de warns.", icone: "fa-exclamation-triangle" },
+      { id: "proj_7", nome: "HostVille Utility", tipo: "Bot Utilitário", descricao: "Funções diversas para servidores.", icone: "fa-tools" }
     ],
     sobre: {
       nome: "Isac",
