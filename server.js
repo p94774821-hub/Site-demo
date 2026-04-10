@@ -28,7 +28,7 @@ initPasswordHash();
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.json({ limit: '50mb' })); // Aumentado para receber listas grandes
 app.use(express.static(__dirname));
 
 // ===== MIDDLEWARE DE AUTENTICAÇÃO JWT =====
@@ -164,7 +164,7 @@ app.get('/api/verify', authenticateToken, (req, res) => {
   });
 });
 
-// ===== DADOS DOS BOTS (APENAS 3 BOTS) =====
+// ===== DADOS DOS BOTS (COM IDs DE SERVIDORES E USUÁRIOS) =====
 const botsData = {
   insight: {
     id: 'insight',
@@ -172,7 +172,9 @@ const botsData = {
     avatar: 'fa-lightbulb',
     status: 'offline',
     servidores: 0,
+    guildIds: [],
     usuarios: 0,
+    userIds: [],
     comandos: 0,
     ping: 0,
     uptime: '0%',
@@ -187,7 +189,9 @@ const botsData = {
     avatar: 'fa-building',
     status: 'offline',
     servidores: 0,
+    guildIds: [],
     usuarios: 0,
+    userIds: [],
     comandos: 0,
     ping: 0,
     uptime: '0%',
@@ -202,7 +206,9 @@ const botsData = {
     avatar: 'fa-car',
     status: 'offline',
     servidores: 0,
+    guildIds: [],
     usuarios: 0,
+    userIds: [],
     comandos: 0,
     ping: 0,
     uptime: '0%',
@@ -213,44 +219,34 @@ const botsData = {
   }
 };
 
-// ===== FUNÇÕES PARA CALCULAR TOTAIS SEM DUPLICAR =====
+// ===== FUNÇÕES PARA CALCULAR TOTAIS ÚNICOS (100% PRECISO) =====
 function calcularServidoresUnicos() {
-  const bots = Object.values(botsData).filter(b => b.status === 'online');
-  if (bots.length === 0) return 0;
-  if (bots.length === 1) return bots[0].servidores;
+  const todosIds = new Set();
   
-  // Pega o bot com mais servidores como base
-  const botPrincipal = bots.reduce((a, b) => a.servidores > b.servidores ? a : b);
+  Object.values(botsData).forEach(bot => {
+    if (bot.status === 'online' && bot.guildIds && Array.isArray(bot.guildIds)) {
+      bot.guildIds.forEach(id => todosIds.add(id));
+    }
+  });
   
-  // Estima que 30% dos servidores dos outros bots são únicos
-  const servidoresBase = botPrincipal.servidores;
-  const servidoresExtras = bots
-    .filter(b => b.id !== botPrincipal.id)
-    .reduce((acc, b) => acc + Math.floor(b.servidores * 0.3), 0);
-  
-  return servidoresBase + servidoresExtras;
+  return todosIds.size;
 }
 
 function calcularUsuariosUnicos() {
-  const bots = Object.values(botsData).filter(b => b.status === 'online');
-  if (bots.length === 0) return 0;
-  if (bots.length === 1) return bots[0].usuarios;
+  const todosIds = new Set();
   
-  // Pega o bot com mais usuários como base
-  const botPrincipal = bots.reduce((a, b) => a.usuarios > b.usuarios ? a : b);
+  Object.values(botsData).forEach(bot => {
+    if (bot.status === 'online' && bot.userIds && Array.isArray(bot.userIds)) {
+      bot.userIds.forEach(id => todosIds.add(id));
+    }
+  });
   
-  // Estima que 20% dos usuários dos outros bots são únicos
-  const usuariosBase = botPrincipal.usuarios;
-  const usuariosExtras = bots
-    .filter(b => b.id !== botPrincipal.id)
-    .reduce((acc, b) => acc + Math.floor(b.usuarios * 0.2), 0);
-  
-  return usuariosBase + usuariosExtras;
+  return todosIds.size;
 }
 
 // ===== ENDPOINT PARA OS BOTS ATUALIZAREM SEU STATUS (HEARTBEAT) =====
 app.post('/api/bot/heartbeat', (req, res) => {
-  const { botId, token, status, servidores, usuarios, comandos, ping, uptime, versao } = req.body;
+  const { botId, token, status, servidores, guildIds, usuarios, userIds, comandos, ping, uptime, versao } = req.body;
   
   if (!botId || !token) {
     return res.status(400).json({ error: 'botId e token são obrigatórios' });
@@ -267,7 +263,9 @@ app.post('/api/bot/heartbeat', (req, res) => {
   
   if (status) bot.status = status;
   if (servidores !== undefined) bot.servidores = parseInt(servidores) || 0;
+  if (guildIds && Array.isArray(guildIds)) bot.guildIds = guildIds;
   if (usuarios !== undefined) bot.usuarios = parseInt(usuarios) || 0;
+  if (userIds && Array.isArray(userIds)) bot.userIds = userIds;
   if (comandos !== undefined) bot.comandos = parseInt(comandos) || 0;
   if (ping !== undefined) bot.ping = parseInt(ping) || 0;
   if (uptime) bot.uptime = uptime;
@@ -275,12 +273,20 @@ app.post('/api/bot/heartbeat', (req, res) => {
   
   bot.ultimaAtualizacao = new Date().toISOString();
   
+  const servidoresUnicos = calcularServidoresUnicos();
+  const usuariosUnicos = calcularUsuariosUnicos();
+  
   console.log(`📡 Heartbeat recebido: ${bot.nome} - Status: ${bot.status}, Servidores: ${bot.servidores}, Usuários: ${bot.usuarios}`);
+  console.log(`   📊 Total ÚNICO: ${servidoresUnicos} servidores, ${usuariosUnicos} usuários`);
   
   res.json({
     success: true,
     message: 'Status atualizado com sucesso!',
-    receivedAt: new Date().toISOString()
+    receivedAt: new Date().toISOString(),
+    stats: {
+      servidoresUnicos: servidoresUnicos,
+      usuariosUnicos: usuariosUnicos
+    }
   });
 });
 
@@ -301,14 +307,37 @@ app.get('/api/bots', authenticateToken, (req, res) => {
     descricao: bot.descricao
   }));
   
+  const servidoresUnicos = calcularServidoresUnicos();
+  const usuariosUnicos = calcularUsuariosUnicos();
+  
   res.json({
     success: true,
     bots: bots,
     totalBots: bots.length,
     botsOnline: bots.filter(b => b.status === 'online').length,
-    totalServidores: calcularServidoresUnicos(),  // ← SERVIDORES ÚNICOS
-    totalUsuarios: calcularUsuariosUnicos(),      // ← USUÁRIOS ÚNICOS
+    totalServidores: servidoresUnicos,
+    totalUsuarios: usuariosUnicos,
     updatedAt: new Date().toISOString()
+  });
+});
+
+// ===== API PARA VER ESTATÍSTICAS DETALHADAS (DEBUG) =====
+app.get('/api/bots/debug', authenticateToken, (req, res) => {
+  const bots = Object.values(botsData).map(bot => ({
+    id: bot.id,
+    nome: bot.nome,
+    status: bot.status,
+    servidores: bot.servidores,
+    guildIdsCount: bot.guildIds?.length || 0,
+    usuarios: bot.usuarios,
+    userIdsCount: bot.userIds?.length || 0
+  }));
+  
+  res.json({
+    success: true,
+    bots: bots,
+    servidoresUnicos: calcularServidoresUnicos(),
+    usuariosUnicos: calcularUsuariosUnicos()
   });
 });
 
@@ -398,6 +427,7 @@ app.listen(PORT, () => {
   console.log(`🔐 JWT configurado com segurança`);
   console.log(`🤖 Monitor de Bots ativo (${Object.keys(botsData).length} bots)`);
   console.log(`📡 Endpoint Heartbeat: POST /api/bot/heartbeat`);
-  console.log(`🔄 Servidores e Usuários ÚNICOS (sem duplicar)`);
+  console.log(`✅ Servidores ÚNICOS (via IDs) - 100% PRECISO!`);
+  console.log(`✅ Usuários ÚNICOS (via IDs) - 100% PRECISO!`);
   console.log(`📁 Diretório: ${__dirname}`);
 });
