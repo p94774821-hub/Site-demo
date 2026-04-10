@@ -1425,37 +1425,22 @@ body::before {
     <div class="hero-content">
       <div class="hero-badge">
         <i class="fas fa-terminal"></i>
-        <span>Y2K_DevWorks // online</span>
+        <span id="hero-badge">Y2K_DevWorks // online</span>
       </div>
       
       <h1 class="hero-title">
-        <span class="gradient-text">Bots Discord</span><br>
-        que fazem a diferença
+        <span class="gradient-text" id="hero-titulo">Bots Discord que fazem a diferença</span>
       </h1>
       
-      <div class="hero-bio">
+      <div class="hero-bio" id="hero-bio">
         𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍
       </div>
       
-      <p class="hero-description">
-        Sistemas personalizados para seu servidor Discord. Automação inteligente, 
-        moderação eficiente e whitelist profissional.
+      <p class="hero-description" id="hero-descricao">
+        Sistemas personalizados para seu servidor Discord. Automação inteligente, moderação eficiente e whitelist profissional.
       </p>
       
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-value" data-target="150">0</span>
-          <span class="stat-label">Usuários Ajudados</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" data-target="6">0</span>
-          <span class="stat-label">Projetos Ativos</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" data-target="1">0</span>
-          <span class="stat-label">Ano de XP</span>
-        </div>
-      </div>
+      <div class="hero-stats" id="hero-stats-container"></div>
       
       <div class="hero-cta">
         <a href="#contato" class="btn btn-primary">
@@ -1495,54 +1480,10 @@ body::before {
     <div class="section-header">
       <div class="section-label">&lt;portfolio&gt;</div>
       <h2 class="section-title">Projetos Desenvolvidos</h2>
-      <p class="section-description">
-        Sistemas reais em produção para servidores Discord
-      </p>
+      <p class="section-description">Sistemas reais em produção para servidores Discord</p>
     </div>
     
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-icon"><i class="fas fa-lightbulb"></i></div>
-        <h3 class="project-title">Insight</h3>
-        <span class="project-type">Sistema de Sugestões</span>
-        <p class="project-description">Sistema completo de sugestões com votação e análise de engajamento.</p>
-      </div>
-      
-      <div class="project-card">
-        <div class="project-icon"><i class="fas fa-building"></i></div>
-        <h3 class="project-title">Atlas</h3>
-        <span class="project-type">Registro de Imóveis</span>
-        <p class="project-description">Sistema de registro e gerenciamento de propriedades para servidores RP.</p>
-      </div>
-      
-      <div class="project-card">
-        <div class="project-icon"><i class="fas fa-car"></i></div>
-        <h3 class="project-title">Vehix</h3>
-        <span class="project-type">Registro de Veículos</span>
-        <p class="project-description">Sistema completo de registro e controle de veículos.</p>
-      </div>
-      
-      <div class="project-card">
-        <div class="project-icon"><i class="fas fa-shield-alt"></i></div>
-        <h3 class="project-title">HostVille Services</h3>
-        <span class="project-type">Moderação & Staff</span>
-        <p class="project-description">Bots de moderação, sistema de warns e avaliação de staff.</p>
-      </div>
-      
-      <div class="project-card">
-        <div class="project-icon"><i class="fas fa-list-check"></i></div>
-        <h3 class="project-title">Cidade de Deus RP</h3>
-        <span class="project-type">WhiteList Completa</span>
-        <p class="project-description">Bot completo de whitelist para servidor de Roleplay.</p>
-      </div>
-      
-      <div class="project-card" style="opacity: 0.9;">
-        <div class="project-icon"><i class="fas fa-plus-circle"></i></div>
-        <h3 class="project-title">Seu Projeto</h3>
-        <span class="project-type">Sob Demanda</span>
-        <p class="project-description">Precisa de um sistema personalizado? Entre em contato.</p>
-      </div>
-    </div>
+    <div class="projects-grid" id="projetos-container"></div>
   </div>
 </section>
 
@@ -1557,28 +1498,18 @@ body::before {
     <div class="about-grid">
       <div class="about-card">
         <div class="about-icon"><i class="fas fa-user-astronaut"></i></div>
-        <h3 class="about-name">Isac Ornelas</h3>
-        <div class="about-bio-mono">𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍</div>
+        <h3 class="about-name" id="sobre-nome">Isac</h3>
+        <div class="about-bio-mono" id="sobre-bio">𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍</div>
         <div class="about-experience">
           <div class="exp-item"><div class="exp-value">1</div><div class="exp-label">Ano JS/Python</div></div>
           <div class="exp-item"><div class="exp-value">150+</div><div class="exp-label">Usuários</div></div>
         </div>
-        <div class="skills-container">
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">HTML</span>
-          <span class="skill-tag">Discord.js</span>
-          <span class="skill-tag">Node.js</span>
-          <span class="skill-tag">Automação</span>
-        </div>
+        <div class="skills-container" id="skills-container"></div>
       </div>
       
       <div class="about-content">
         <h3>Da matemática para o código</h3>
-        <div class="about-text">
-          <p>Meu nome é Isac, desenvolvedor de bots e sistemas para Discord com 1 ano de experiência em JavaScript e Python. Comecei criando pequenas automações e hoje desenvolvo sistemas completos.</p>
-          <p>Minha paixão por lógica vem da matemática, onde conquistei o bicampeonato paulista olímpico. Essa mesma lógica aplico no desenvolvimento de bots eficientes.</p>
-        </div>
+        <div class="about-text" id="sobre-texto"></div>
         <div class="achievements">
           <div class="achievement-item">
             <i class="fas fa-trophy"></i>
@@ -1614,18 +1545,18 @@ body::before {
         <div class="contact-methods">
           <a href="https://discord.com/users/Y2k_Nat" target="_blank" class="contact-method">
             <i class="fab fa-discord"></i>
-            <div class="method-info"><h4>Discord</h4><p>@Y2k_Nat</p></div>
+            <div class="method-info"><h4>Discord</h4><p id="contato-discord">@Y2k_Nat</p></div>
           </a>
           <a href="mailto:Y2k_Nat@hotmail.com" class="contact-method">
             <i class="fas fa-envelope"></i>
-            <div class="method-info"><h4>Email</h4><p>Y2k_Nat@hotmail.com</p></div>
+            <div class="method-info"><h4>Email</h4><p id="contato-email">Y2k_Nat@hotmail.com</p></div>
           </a>
         </div>
         <div class="hours-box">
           <i class="fas fa-clock"></i>
           <strong>Horário de Atendimento</strong>
-          <p>Segunda a Sexta: 13h às 21h</p>
-          <p>Sábado e Domingo: 14h às 22h</p>
+          <p id="horario-semana">Segunda a Sexta: 13h às 21h</p>
+          <p id="horario-fim">Sábado e Domingo: 14h às 22h</p>
         </div>
       </div>
     </div>
@@ -1638,7 +1569,7 @@ body::before {
     <div class="footer-content">
       <div class="footer-brand">
         <div class="logo"><div class="logo-icon">&gt;_</div><div class="logo-text">Y2K<span class="highlight">DevWorks</span></div></div>
-        <p>𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍</p>
+        <p id="footer-bio">𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍</p>
         <div class="social-links">
           <a href="https://discord.com/users/Y2k_Nat" target="_blank" class="social-link"><i class="fab fa-discord"></i></a>
           <a href="mailto:Y2k_Nat@hotmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
@@ -1650,7 +1581,7 @@ body::before {
       </div>
       <div class="footer-links">
         <h4>Projetos</h4>
-        <ul><li><a href="#projetos">Insight</a></li><li><a href="#projetos">Atlas</a></li><li><a href="#projetos">Vehix</a></li><li><a href="#projetos">HostVille</a></li><li><a href="#projetos">Cidade de Deus RP</a></li></ul>
+        <ul id="footer-projetos"></ul>
       </div>
     </div>
     <div class="footer-bottom">
@@ -1660,56 +1591,270 @@ body::before {
 </footer>
 
 <script>
-// LOADER
-window.addEventListener('load', () => { setTimeout(() => { const loader = document.getElementById('loader'); loader.style.opacity = '0'; loader.style.visibility = 'hidden'; }, 2000); });
+// ===== DADOS DO SITE =====
+let siteData = {};
 
-// CURSOR - Desktop Only
+// ===== CARREGAR DADOS DO JSON =====
+async function loadContent() {
+  try {
+    const response = await fetch('/api/content');
+    siteData = await response.json();
+    renderContent();
+  } catch (error) {
+    console.error('Erro ao carregar conteúdo:', error);
+    loadDefaultContent();
+  }
+}
+
+function loadDefaultContent() {
+  siteData = {
+    hero: {
+      badge: "Y2K_DevWorks // online",
+      titulo: "Bots Discord que fazem a diferença",
+      bio: "𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍",
+      descricao: "Sistemas personalizados para seu servidor Discord. Automação inteligente, moderação eficiente e whitelist profissional."
+    },
+    stats: [
+      { valor: 150, label: "Usuários Ajudados" },
+      { valor: 6, label: "Projetos Ativos" },
+      { valor: 1, label: "Ano de XP" }
+    ],
+    projetos: [
+      { nome: "Insight", tipo: "Sistema de Sugestões", descricao: "Sistema completo de sugestões com votação e análise.", icone: "fa-lightbulb" },
+      { nome: "Atlas", tipo: "Registro de Imóveis", descricao: "Sistema de registro de propriedades para RP.", icone: "fa-building" },
+      { nome: "Vehix", tipo: "Registro de Veículos", descricao: "Sistema completo de registro de veículos.", icone: "fa-car" },
+      { nome: "HostVille Services", tipo: "Moderação & Staff", descricao: "Bots de moderação e warns.", icone: "fa-shield-alt" },
+      { nome: "Cidade de Deus RP", tipo: "WhiteList Completa", descricao: "Bot completo de whitelist para RP.", icone: "fa-list-check" },
+      { nome: "Seu Projeto", tipo: "Sob Demanda", descricao: "Precisa de um sistema personalizado?", icone: "fa-plus-circle" }
+    ],
+    sobre: {
+      nome: "Isac",
+      bio: "𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍",
+      texto: "Meu nome é Isac, desenvolvedor de bots e sistemas para Discord com 1 ano de experiência em JavaScript e Python.",
+      skills: ["JavaScript", "Python", "HTML", "Discord.js", "Node.js", "Automação"]
+    },
+    contato: {
+      discord: "@Y2k_Nat",
+      email: "Y2k_Nat@hotmail.com",
+      horario_semana: "13h às 21h",
+      horario_fim: "14h às 22h"
+    }
+  };
+  renderContent();
+}
+
+function renderContent() {
+  // Hero
+  document.getElementById('hero-badge').textContent = siteData.hero.badge;
+  document.getElementById('hero-titulo').textContent = siteData.hero.titulo;
+  document.getElementById('hero-bio').textContent = siteData.hero.bio;
+  document.getElementById('hero-descricao').textContent = siteData.hero.descricao;
+  document.getElementById('footer-bio').textContent = siteData.hero.bio;
+  
+  // Stats
+  const statsContainer = document.getElementById('hero-stats-container');
+  statsContainer.innerHTML = siteData.stats.map(s => `
+    <div class="stat">
+      <span class="stat-value" data-target="${s.valor}">0</span>
+      <span class="stat-label">${s.label}</span>
+    </div>
+  `).join('');
+  
+  // Projetos
+  const projetosContainer = document.getElementById('projetos-container');
+  projetosContainer.innerHTML = siteData.projetos.map(p => `
+    <div class="project-card">
+      <div class="project-icon"><i class="fas ${p.icone || 'fa-code'}"></i></div>
+      <h3 class="project-title">${p.nome}</h3>
+      <span class="project-type">${p.tipo}</span>
+      <p class="project-description">${p.descricao}</p>
+    </div>
+  `).join('');
+  
+  // Footer Projetos
+  const footerProjetos = document.getElementById('footer-projetos');
+  footerProjetos.innerHTML = siteData.projetos.slice(0, 5).map(p => 
+    `<li><a href="#projetos">${p.nome}</a></li>`
+  ).join('');
+  
+  // Sobre
+  document.getElementById('sobre-nome').textContent = siteData.sobre.nome;
+  document.getElementById('sobre-bio').textContent = siteData.sobre.bio;
+  document.getElementById('sobre-texto').innerHTML = siteData.sobre.texto.split('\n\n').map(p => `<p>${p}</p>`).join('');
+  
+  // Skills
+  const skillsContainer = document.getElementById('skills-container');
+  skillsContainer.innerHTML = siteData.sobre.skills.map(s => 
+    `<span class="skill-tag">${s}</span>`
+  ).join('');
+  
+  // Contato
+  document.getElementById('contato-discord').textContent = siteData.contato.discord;
+  document.getElementById('contato-email').textContent = siteData.contato.email;
+  document.getElementById('horario-semana').textContent = `Segunda a Sexta: ${siteData.contato.horario_semana}`;
+  document.getElementById('horario-fim').textContent = `Sábado e Domingo: ${siteData.contato.horario_fim}`;
+  
+  // Re-animar contadores
+  setTimeout(animateCounters, 100);
+  setTimeout(scrollReveal, 200);
+}
+
+// ===== LOADER =====
+window.addEventListener('load', () => { 
+  setTimeout(() => { 
+    const loader = document.getElementById('loader'); 
+    loader.style.opacity = '0'; 
+    loader.style.visibility = 'hidden'; 
+  }, 2000); 
+  loadContent();
+});
+
+// ===== CURSOR - Desktop Only =====
 if (window.innerWidth >= 769) {
   const cursorMain = document.querySelector('.cursor-main'), cursorDot = document.querySelector('.cursor-dot');
-  document.addEventListener('mousemove', (e) => { cursorMain.style.left = e.clientX + 'px'; cursorMain.style.top = e.clientY + 'px'; cursorDot.style.left = e.clientX + 'px'; cursorDot.style.top = e.clientY + 'px'; });
-  document.addEventListener('mouseleave', () => { cursorMain.style.opacity = '0'; cursorDot.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { cursorMain.style.opacity = '1'; cursorDot.style.opacity = '1'; });
-  document.querySelectorAll('a, button, .project-card, .contact-method, .achievement-item, .skill-tag, .trust-item').forEach(el => { el.addEventListener('mouseenter', () => cursorMain.classList.add('hover')); el.addEventListener('mouseleave', () => cursorMain.classList.remove('hover')); });
+  document.addEventListener('mousemove', (e) => { 
+    cursorMain.style.left = e.clientX + 'px'; 
+    cursorMain.style.top = e.clientY + 'px'; 
+    cursorDot.style.left = e.clientX + 'px'; 
+    cursorDot.style.top = e.clientY + 'px'; 
+  });
+  document.addEventListener('mouseleave', () => { 
+    cursorMain.style.opacity = '0'; 
+    cursorDot.style.opacity = '0'; 
+  });
+  document.addEventListener('mouseenter', () => { 
+    cursorMain.style.opacity = '1'; 
+    cursorDot.style.opacity = '1'; 
+  });
+  document.querySelectorAll('a, button, .project-card, .contact-method, .achievement-item, .skill-tag, .trust-item').forEach(el => { 
+    el.addEventListener('mouseenter', () => cursorMain.classList.add('hover')); 
+    el.addEventListener('mouseleave', () => cursorMain.classList.remove('hover')); 
+  });
 }
 
-// NAVBAR SCROLL
-window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => { 
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); 
+});
 
-// BACKGROUND CANVAS
+// ===== BACKGROUND CANVAS =====
 const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
 let width, height, particles = [];
-function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initParticles(); }
-function initParticles() { particles = []; for (let i = 0; i < 40; i++) { particles.push({ x: Math.random() * width, y: Math.random() * height, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, size: Math.random() * 2 + 1 }); } }
+
+function resizeCanvas() { 
+  width = window.innerWidth; 
+  height = window.innerHeight; 
+  canvas.width = width; 
+  canvas.height = height; 
+  initParticles(); 
+}
+
+function initParticles() { 
+  particles = []; 
+  for (let i = 0; i < 40; i++) { 
+    particles.push({ 
+      x: Math.random() * width, 
+      y: Math.random() * height, 
+      vx: (Math.random() - 0.5) * 0.3, 
+      vy: (Math.random() - 0.5) * 0.3, 
+      size: Math.random() * 2 + 1 
+    }); 
+  } 
+}
+
 function drawBackground() {
   ctx.clearRect(0, 0, width, height);
-  ctx.strokeStyle = 'rgba(255, 26, 26, 0.04)'; ctx.lineWidth = 0.5;
+  ctx.strokeStyle = 'rgba(255, 26, 26, 0.04)'; 
+  ctx.lineWidth = 0.5;
   const gridSize = Math.min(50, width / 15);
-  for (let i = 0; i < width; i += gridSize) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, height); ctx.stroke(); }
-  for (let i = 0; i < height; i += gridSize) { ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(width, i); ctx.stroke(); }
-  particles.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > width) p.vx *= -1; if (p.y < 0 || p.y > height) p.vy *= -1; const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4); grad.addColorStop(0, 'rgba(255, 0, 0, 0.15)'); grad.addColorStop(1, 'transparent'); ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = 'rgba(255, 50, 50, 0.3)'; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); });
+  for (let i = 0; i < width; i += gridSize) { 
+    ctx.beginPath(); 
+    ctx.moveTo(i, 0); 
+    ctx.lineTo(i, height); 
+    ctx.stroke(); 
+  }
+  for (let i = 0; i < height; i += gridSize) { 
+    ctx.beginPath(); 
+    ctx.moveTo(0, i); 
+    ctx.lineTo(width, i); 
+    ctx.stroke(); 
+  }
+  particles.forEach(p => { 
+    p.x += p.vx; 
+    p.y += p.vy; 
+    if (p.x < 0 || p.x > width) p.vx *= -1; 
+    if (p.y < 0 || p.y > height) p.vy *= -1; 
+    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4); 
+    grad.addColorStop(0, 'rgba(255, 0, 0, 0.15)'); 
+    grad.addColorStop(1, 'transparent'); 
+    ctx.fillStyle = grad; 
+    ctx.beginPath(); 
+    ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2); 
+    ctx.fill(); 
+    ctx.fillStyle = 'rgba(255, 50, 50, 0.3)'; 
+    ctx.beginPath(); 
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); 
+    ctx.fill(); 
+  });
   requestAnimationFrame(drawBackground);
 }
-resizeCanvas(); initParticles(); drawBackground();
+
+resizeCanvas(); 
+initParticles(); 
+drawBackground();
 window.addEventListener('resize', resizeCanvas);
 
-// CONTADORES
+// ===== CONTADORES =====
 function animateCounters() {
   const counters = document.querySelectorAll('.stat-value[data-target]');
-  const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const target = entry.target, final = parseInt(target.dataset.target); let cur = 0; const timer = setInterval(() => { cur += final/40; if (cur >= final) { target.textContent = final + '+'; clearInterval(timer); } else { target.textContent = Math.floor(cur); } }, 20); observer.unobserve(target); } }); }, { threshold: 0.5 });
+  const observer = new IntersectionObserver((entries) => { 
+    entries.forEach(entry => { 
+      if (entry.isIntersecting) { 
+        const target = entry.target, final = parseInt(target.dataset.target); 
+        let cur = 0; 
+        const timer = setInterval(() => { 
+          cur += final/40; 
+          if (cur >= final) { 
+            target.textContent = final + '+'; 
+            clearInterval(timer); 
+          } else { 
+            target.textContent = Math.floor(cur); 
+          } 
+        }, 20); 
+        observer.unobserve(target); 
+      } 
+    }); 
+  }, { threshold: 0.5 });
   counters.forEach(c => observer.observe(c));
 }
-animateCounters();
 
-// SCROLL REVEAL
+// ===== SCROLL REVEAL =====
 function scrollReveal() {
   const elements = document.querySelectorAll('.project-card, .about-card, .about-content, .contact-grid, .achievement-item');
-  const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }); }, { threshold: 0.1 });
-  elements.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(30px)'; el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)'; observer.observe(el); });
+  const observer = new IntersectionObserver((entries) => { 
+    entries.forEach(entry => { 
+      if (entry.isIntersecting) { 
+        entry.target.style.opacity = '1'; 
+        entry.target.style.transform = 'translateY(0)'; 
+      } 
+    }); 
+  }, { threshold: 0.1 });
+  elements.forEach(el => { 
+    el.style.opacity = '0'; 
+    el.style.transform = 'translateY(30px)'; 
+    el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)'; 
+    observer.observe(el); 
+  });
 }
-scrollReveal();
 
-// SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => { 
+  anchor.addEventListener('click', function(e) { 
+    e.preventDefault(); 
+    const target = document.querySelector(this.getAttribute('href')); 
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+  }); 
+});
 </script>
 
 </body>
