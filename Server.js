@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 const express = require('express');
@@ -75,7 +74,7 @@ app.use((req, res, next) => {
       <html>
       <head><title>Site Offline</title></head>
       <body style="background:#0a0a0a;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;">
-        <div style="text-align:center"><h1 style="color:#ff1a1a">🔴 Site Offline</h1><p>O site está temporariamente offline.</p></div>
+        <div style="text-align:center"><h1 style="color:#a855f7">🔴 Site Offline</h1><p>O site está temporariamente offline.</p></div>
       </body>
       </html>
     `);
@@ -266,6 +265,47 @@ app.post('/api/save', authenticateToken, (req, res) => {
   }
 });
 
+// ===== API PARA SALVAR TEMA E COR (SINCRONIZAÇÃO ENTRE DISPOSITIVOS) =====
+app.post('/api/save-theme', authenticateToken, (req, res) => {
+  const { theme, primaryColor } = req.body;
+  
+  try {
+    const dataPath = path.join(__dirname, 'data', 'content.json');
+    
+    // Ler conteúdo existente
+    let data = {};
+    if (fs.existsSync(dataPath)) {
+      data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    }
+    
+    // Adicionar/atualizar tema
+    data.theme = data.theme || {};
+    data.theme.mode = theme;
+    data.theme.primaryColor = primaryColor;
+    
+    // Salvar
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    
+    // Registrar log
+    siteStatus.accessLogs.push({
+      timestamp: Date.now(),
+      action: `[TEMA] Alterado para ${theme} - Cor: ${primaryColor}`
+    });
+    
+    console.log(`🎨 Tema salvo: ${theme} - ${primaryColor}`);
+    
+    res.json({ 
+      success: true,
+      message: 'Tema salvo com sucesso!',
+      theme: theme,
+      primaryColor: primaryColor
+    });
+  } catch (error) {
+    console.error('Erro ao salvar tema:', error);
+    res.status(500).json({ error: 'Erro ao salvar tema' });
+  }
+});
+
 // ===== API PARA VERIFICAR TOKEN =====
 app.get('/api/verify', authenticateToken, (req, res) => {
   res.json({
@@ -425,29 +465,35 @@ function getDefaultContent() {
   return {
     hero: {
       badge: "Y2K_DevWorks // online",
-      titulo: "Bots Discord que fazem a diferença",
+      titulo: "Sistemas e automação para Discord",
       bio: "𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍",
-      descricao: "Sistemas personalizados para seu servidor Discord. Automação inteligente, moderação eficiente e whitelist profissional."
+      descricao: "Sistemas profissionais para Discord. Automação e soluções personalizadas para seu servidor."
     },
     stats: [
       { valor: 150, label: "Usuários Ajudados" },
-      { valor: 1, label: "Projetos Ativos" },
-      { valor: 1, label: "Ano de XP" }
+      { valor: 3, label: "Sistemas Ativos" },
+      { valor: 1, label: "Ano de Experiência" }
     ],
     projetos: [
-      { id: "proj_1", nome: "Insight", tipo: "Sistema de Sugestões", descricao: "Sistema completo de sugestões com votação.", icone: "fa-lightbulb" }
+      { id: "proj_1", nome: "Insight", tipo: "Sistema de Sugestões", descricao: "Sistema completo de sugestões com votação e análise de engajamento.", icone: "fa-lightbulb" },
+      { id: "proj_2", nome: "Atlas", tipo: "Registro de Propriedades", descricao: "Sistema de registro de imóveis para servidores RP.", icone: "fa-building" },
+      { id: "proj_3", nome: "Vehix", tipo: "Registro de Veículos", descricao: "Sistema completo de registro e gerenciamento de veículos.", icone: "fa-car" }
     ],
     sobre: {
       nome: "Isac",
       bio: "𝙳𝚎𝚜𝚎𝚗𝚟𝚘𝚕𝚟𝚎𝚍𝚘𝚛 𝚍𝚎 𝚜𝚒𝚜𝚝𝚎𝚖𝚊𝚜 𝚙𝚊𝚛𝚊 𝙳𝚒𝚜𝚌𝚘𝚛𝚍",
-      texto: "Meu nome é Isac, desenvolvedor de bots e sistemas para Discord com 1 ano de experiência em JavaScript e Python.",
-      skills: ["JavaScript", "Python", "HTML", "Discord.js", "Node.js", "Automação"]
+      texto: "Meu nome é Isac, desenvolvedor de sistemas e automação para Discord com 1 ano de experiência em JavaScript e Python. Foco em criar soluções eficientes e personalizadas para cada servidor.",
+      skills: ["JavaScript", "Python", "Discord.js", "Node.js", "Automação", "APIs"]
     },
     contato: {
       discord: "@Y2k_Nat",
       email: "Y2k_Nat@hotmail.com",
       horario_semana: "13h às 21h",
       horario_fim: "14h às 22h"
+    },
+    theme: {
+      mode: "dark",
+      primaryColor: "#a855f7"
     }
   };
 }
@@ -495,10 +541,15 @@ function sanitizeContent(content) {
     sanitized.contato.horario_fim = String(sanitized.contato.horario_fim || '').trim().substring(0, 50);
   }
   
+  // Preservar tema
+  if (content.theme) {
+    sanitized.theme = content.theme;
+  }
+  
   return sanitized;
 }
 
-// ===== SISTEMA DE TERMINAL VIA WEBSOCKET (ADICIONADO) =====
+// ===== SISTEMA DE TERMINAL VIA WEBSOCKET =====
 wss.on('connection', (ws, req) => {
   const clientIP = req.socket.remoteAddress;
   console.log(`🖥️ Terminal conectado de ${clientIP}`);
@@ -566,9 +617,9 @@ function handleTerminalCommand(cmd, ws) {
 ║    maintenance on/off  - Modo manutenção                 ║
 ║    toggle              - Alternar online/offline         ║
 ║                                                          ║
-║  🤖 BOTS:                                                ║
-║    bots                - Listar bots                     ║
-║    bot-status <id>     - Ver status de um bot            ║
+║  🤖 SISTEMAS:                                            ║
+║    bots                - Listar sistemas                 ║
+║    bot-status <id>     - Ver status de um sistema        ║
 ║                                                          ║
 ║  🔐 ADMIN:                                               ║
 ║    check-password <s>  - Verificar senha do admin        ║
@@ -599,19 +650,15 @@ function handleTerminalCommand(cmd, ws) {
     },
     
     offline: () => {
-      if (!siteStatus.online) {
-        return '⚠️ Site já está OFFLINE.';
-      }
+      if (!siteStatus.online) return '⚠️ Site já está OFFLINE.';
       siteStatus.online = false;
       siteStatus.lastToggle = Date.now();
       broadcastStatus();
-      return '🔴 Site colocado em modo OFFLINE com sucesso!\n📱 Usuários verão a página offline.html';
+      return '🔴 Site colocado em modo OFFLINE com sucesso!';
     },
     
     online: () => {
-      if (siteStatus.online) {
-        return '⚠️ Site já está ONLINE.';
-      }
+      if (siteStatus.online) return '⚠️ Site já está ONLINE.';
       siteStatus.online = true;
       siteStatus.lastToggle = Date.now();
       broadcastStatus();
@@ -623,14 +670,13 @@ function handleTerminalCommand(cmd, ws) {
       if (action === 'on') {
         siteStatus.maintenanceMode = true;
         broadcastStatus();
-        return '⚠️ Modo de manutenção ATIVADO.\n📱 Usuários verão a página maintenance.html';
+        return '⚠️ Modo de manutenção ATIVADO.';
       } else if (action === 'off') {
         siteStatus.maintenanceMode = false;
         broadcastStatus();
         return '✅ Modo de manutenção DESATIVADO.';
-      } else {
-        return `🔧 Modo manutenção: ${siteStatus.maintenanceMode ? 'ATIVADO' : 'DESATIVADO'}\n💡 Use: maintenance on  ou  maintenance off`;
       }
+      return `🔧 Modo manutenção: ${siteStatus.maintenanceMode ? 'ATIVADO' : 'DESATIVADO'}\n💡 Use: maintenance on/off`;
     },
     
     toggle: () => {
@@ -643,23 +689,21 @@ function handleTerminalCommand(cmd, ws) {
     bots: () => {
       const bots = Object.values(botsData);
       return `
-🤖 BOTS CADASTRADOS:
+🤖 SISTEMAS CADASTRADOS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${bots.map(b => `${b.nome} (${b.id}): ${b.status === 'online' ? '🟢' : b.status === 'manutencao' ? '🟡' : '🔴'} ${b.status}`).join('\n')}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Total: ${bots.length} bot(s)
+Total: ${bots.length} sistema(s)
 `;
     },
     
     'bot-status': () => {
       const botId = args[1];
-      if (!botId) return '❌ Forneça o ID do bot: bot-status <id>';
-      
+      if (!botId) return '❌ Forneça o ID: bot-status <id>';
       const bot = botsData[botId];
-      if (!bot) return `❌ Bot "${botId}" não encontrado.`;
-      
+      if (!bot) return `❌ Sistema "${botId}" não encontrado.`;
       return `
-🤖 STATUS DO BOT: ${bot.nome}
+🤖 STATUS: ${bot.nome}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 Status: ${bot.status === 'online' ? '🟢 ONLINE' : bot.status === 'manutencao' ? '🟡 MANUTENÇÃO' : '🔴 OFFLINE'}
 🖥️ Servidores: ${bot.servidores}
@@ -668,8 +712,6 @@ Total: ${bots.length} bot(s)
 📡 Ping: ${bot.ping}ms
 ⏱️ Uptime: ${bot.uptime}
 📦 Versão: ${bot.versao}
-🕐 Última atualização: ${bot.ultimaAtualizacao ? new Date(bot.ultimaAtualizacao).toLocaleString('pt-BR') : 'Nunca'}
-📝 Descrição: ${bot.descricao}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `;
     },
@@ -677,21 +719,13 @@ Total: ${bots.length} bot(s)
     'check-password': () => {
       const password = args[1];
       if (!password) return '❌ Forneça a senha: check-password <senha>';
-      
-      // Comparação direta com a senha original (não o hash)
-      if (password === ADMIN_PASSWORD) {
-        return '✅ Senha CORRETA! Acesso ao painel administrativo autorizado.';
-      } else {
-        return '❌ Senha INCORRETA! Acesso negado.';
-      }
+      return password === ADMIN_PASSWORD ? '✅ Senha CORRETA!' : '❌ Senha INCORRETA!';
     },
     
     logs: () => {
       const limit = parseInt(args[1]) || 10;
       const logs = siteStatus.accessLogs.slice(-limit);
-      
-      if (logs.length === 0) return '📝 Nenhum log registrado ainda.';
-      
+      if (logs.length === 0) return '📝 Nenhum log registrado.';
       return `
 📋 ÚLTIMOS ${logs.length} LOGS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -703,32 +737,26 @@ ${logs.map(log => `[${new Date(log.timestamp).toLocaleString('pt-BR')}] ${log.ac
     'clear-logs': () => {
       const count = siteStatus.accessLogs.length;
       siteStatus.accessLogs = [];
-      return `🧹 ${count} logs foram limpos com sucesso!`;
+      return `🧹 ${count} logs limpos!`;
     },
     
-    clear: () => {
-      return '\x1b[2J\x1b[H';
-    },
+    clear: () => '\x1b[2J\x1b[H',
     
-    exit: () => {
-      ws.close();
-      return null;
-    }
+    exit: () => { ws.close(); return null; }
   };
   
   let response;
   if (commands[command]) {
     response = commands[command]();
   } else {
-    response = `❌ Comando desconhecido: "${command}"\n💡 Digite "help" para ver os comandos disponíveis.`;
+    response = `❌ Comando desconhecido: "${command}"\n💡 Digite "help" para ver os comandos.`;
   }
   
   if (response !== null) {
-    // Registrar comandos que alteram estado
     if (['offline', 'online', 'maintenance', 'toggle'].includes(command)) {
       siteStatus.accessLogs.push({
         timestamp: Date.now(),
-        action: `[TERMINAL] Comando executado: ${cmd}`
+        action: `[TERMINAL] Comando: ${cmd}`
       });
     }
     
@@ -751,7 +779,7 @@ function broadcastStatus() {
   });
 }
 
-// ===== INICIAR SERVIDOR (MODIFICADO - Usar server.listen) =====
+// ===== INICIAR SERVIDOR =====
 server.listen(PORT, () => {
   console.log(`
 ╔══════════════════════════════════════════════════════════╗
@@ -763,8 +791,9 @@ server.listen(PORT, () => {
 ║  ❤️  Health Check: http://localhost:${PORT}/health
 ║                                                          ║
 ║  🔐 JWT configurado com segurança                        ║
-║  🤖 Monitor de Bots ativo (${Object.keys(botsData).length} bot) - APENAS INSIGHT
+║  🤖 Monitor de Sistemas ativo (${Object.keys(botsData).length} sistema)
 ║  📡 Endpoint Heartbeat: POST /api/bot/heartbeat          ║
+║  🎨 Rota de Tema: POST /api/save-theme                   ║
 ║  📁 Diretório: ${__dirname}
 ║                                                          ║
 ║  💡 Use o cliente terminal para conectar:                ║
