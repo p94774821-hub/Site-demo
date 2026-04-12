@@ -43,7 +43,6 @@
             overflow-x: hidden;
         }
         
-        /* Canvas para os pontinhos amarelos */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -54,7 +53,6 @@
             pointer-events: none;
         }
         
-        /* Fundo com borrão (blur) */
         body::before {
             content: '';
             position: fixed;
@@ -64,28 +62,14 @@
                 radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.1) 0%, transparent 45%),
                 radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
             z-index: 0;
-            animation: bgPulse 10s ease-in-out infinite alternate;
-            backdrop-filter: blur(80px);
-            -webkit-backdrop-filter: blur(80px);
-        }
-        
-        /* Grid pattern sutil */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(168, 85, 247, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(168, 85, 247, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: 0;
-            opacity: 0.3;
-            pointer-events: none;
+            animation: bgPulse 12s ease-in-out infinite alternate;
+            backdrop-filter: blur(60px);
+            -webkit-backdrop-filter: blur(60px);
         }
         
         @keyframes bgPulse {
             0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.03); }
+            100% { opacity: 1; transform: scale(1.02); }
         }
         
         .container {
@@ -104,12 +88,10 @@
             z-index: 10;
         }
         
-        /* ===== MOBILE/TABLET - LAYOUT NORMAL ===== */
         .container {
             max-width: 550px;
         }
         
-        /* ===== PC - CONTAINER MAIS ESTREITO ===== */
         @media (min-width: 769px) {
             .container {
                 max-width: 420px !important;
@@ -158,12 +140,6 @@
             transition: all 0.3s;
         }
         
-        .logo-icon:hover {
-            transform: scale(1.05);
-            border-color: var(--primary);
-            box-shadow: 0 0 40px rgba(168, 85, 247, 0.4);
-        }
-        
         .logo-text {
             font-size: clamp(1.4rem, 5vw, 1.7rem);
             font-weight: 700;
@@ -171,16 +147,13 @@
         }
         
         .logo-text span:first-child { color: white; }
-        .logo-text .highlight { 
-            color: var(--primary); 
-            text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
-        }
+        .logo-text .highlight { color: var(--primary); text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
         
         .icon {
             font-size: clamp(4rem, 12vw, 5.5rem);
             color: var(--warning);
             margin-bottom: 25px;
-            animation: pulse 2.5s ease-in-out infinite;
+            animation: pulse 3s ease-in-out infinite;
             filter: drop-shadow(0 0 50px rgba(245, 158, 11, 0.5));
         }
         
@@ -195,16 +168,9 @@
             margin-bottom: 15px;
             font-family: 'Space Grotesk', sans-serif;
             background: linear-gradient(135deg, #fff, #fcd34d, var(--warning));
-            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientShift 4s ease infinite;
-        }
-        
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
         
         .message {
@@ -233,7 +199,7 @@
         
         .status-badge i {
             font-size: 0.7rem;
-            animation: blink 1.5s ease-in-out infinite;
+            animation: blink 2s ease-in-out infinite;
         }
         
         @keyframes blink {
@@ -263,7 +229,7 @@
             height: 100%;
             background: linear-gradient(90deg, var(--warning), var(--warning-light), var(--warning));
             border-radius: var(--radius-full);
-            animation: progressPulse 2s ease-in-out infinite;
+            animation: progressPulse 3s ease-in-out infinite;
             box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
         }
         
@@ -281,9 +247,7 @@
             gap: 8px;
         }
         
-        .progress-text i {
-            color: var(--warning);
-        }
+        .progress-text i { color: var(--warning); }
         
         .info-grid {
             display: grid;
@@ -298,12 +262,6 @@
             border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
             transition: all 0.3s;
-        }
-        
-        .info-item:hover {
-            border-color: var(--warning);
-            background: rgba(245, 158, 11, 0.04);
-            transform: translateY(-2px);
         }
         
         .info-item i {
@@ -333,15 +291,8 @@
             backdrop-filter: blur(10px);
         }
         
-        .info-box i {
-            color: var(--primary);
-            margin-right: 8px;
-        }
-        
-        .info-box p {
-            color: var(--text-secondary);
-            font-size: clamp(0.9rem, 3vw, 1rem);
-        }
+        .info-box i { color: var(--primary); margin-right: 8px; }
+        .info-box p { color: var(--text-secondary); font-size: clamp(0.9rem, 3vw, 1rem); }
         
         .btn-group {
             display: flex;
@@ -383,71 +334,25 @@
             gap: 5px;
         }
         
-        .footer i {
-            color: var(--primary);
-            margin: 0 5px;
-        }
+        .footer i { color: var(--primary); margin: 0 5px; }
+        .footer .divider { color: var(--border-medium); margin: 0 10px; }
         
-        .footer .divider {
-            color: var(--border-medium);
-            margin: 0 10px;
-        }
-        
-        /* ===== MOBILE - AJUSTES ===== */
         @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .info-item {
-                padding: 12px;
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                text-align: left;
-            }
-            
-            .info-item i {
-                font-size: 1.8rem;
-                margin-bottom: 0;
-                width: 40px;
-                text-align: center;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            .logo-icon {
-                width: 45px;
-                height: 45px;
-                font-size: 1.5rem;
-            }
-            
-            .logo-text {
-                font-size: 1.2rem;
-            }
+            .container { padding: 30px 20px; }
+            .info-grid { grid-template-columns: 1fr; gap: 10px; }
+            .info-item { padding: 12px; display: flex; align-items: center; gap: 15px; text-align: left; }
+            .info-item i { font-size: 1.8rem; margin-bottom: 0; width: 40px; text-align: center; }
+            .btn-group { flex-direction: column; width: 100%; }
+            .btn { width: 100%; }
+            .logo-icon { width: 45px; height: 45px; font-size: 1.5rem; }
+            .logo-text { font-size: 1.2rem; }
         }
         
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
+        html, body { max-width: 100%; overflow-x: hidden; }
     </style>
 </head>
 <body>
 
-    <!-- Canvas para os pontinhos amarelos -->
     <canvas id="particle-canvas"></canvas>
 
     <div class="container">
@@ -458,216 +363,104 @@
             </div>
         </div>
         
-        <div class="icon">
-            <i class="fas fa-tools"></i>
-        </div>
-        
+        <div class="icon"><i class="fas fa-tools"></i></div>
         <h1>Em Manutenção</h1>
+        <p class="message">Estamos realizando melhorias em nosso site para oferecer uma experiência ainda melhor.<br>Voltaremos em breve!</p>
         
-        <p class="message">
-            Estamos realizando melhorias em nosso site para oferecer uma experiência ainda melhor.<br>
-            Voltaremos em breve!
-        </p>
-        
-        <div class="status-badge">
-            <i class="fas fa-circle"></i>
-            <span>MODO MANUTENÇÃO</span>
-        </div>
+        <div class="status-badge"><i class="fas fa-circle"></i><span>MODO MANUTENÇÃO</span></div>
         
         <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-            <div class="progress-text">
-                <i class="fas fa-sync-alt fa-spin"></i>
-                <span>Atualização em andamento...</span>
-            </div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="progress-text"><i class="fas fa-sync-alt fa-spin"></i><span>Atualização em andamento...</span></div>
         </div>
         
         <div class="info-grid">
-            <div class="info-item">
-                <i class="fas fa-clock"></i>
-                <h4>Previsão</h4>
-                <p>Alguns instantes</p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-code-branch"></i>
-                <h4>Versão</h4>
-                <p>v2.1.0</p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-headset"></i>
-                <h4>Suporte</h4>
-                <p>@Y2k_Nat</p>
-            </div>
+            <div class="info-item"><i class="fas fa-clock"></i><h4>Previsão</h4><p>Alguns instantes</p></div>
+            <div class="info-item"><i class="fas fa-code-branch"></i><h4>Versão</h4><p>v2.1.0</p></div>
+            <div class="info-item"><i class="fas fa-headset"></i><h4>Suporte</h4><p>@Y2k_Nat</p></div>
         </div>
         
-        <div class="info-box">
-            <i class="fas fa-info-circle"></i>
-            <p>Nossos sistemas estão sendo atualizados. Agradecemos sua paciência!</p>
-        </div>
+        <div class="info-box"><i class="fas fa-info-circle"></i><p>Nossos sistemas estão sendo atualizados. Agradecemos sua paciência!</p></div>
         
-        <div class="btn-group">
-            <a href="/" class="btn">
-                <i class="fas fa-home"></i> Página Inicial
-            </a>
-        </div>
+        <div class="btn-group"><a href="/" class="btn"><i class="fas fa-home"></i> Página Inicial</a></div>
         
         <div class="footer">
-            <div>
-                <i class="fas fa-terminal"></i> Y2kDevWorks <i class="fas fa-terminal"></i>
-            </div>
-            <div style="font-size: 0.8rem;">
-                Sistemas e Automação para Discord
-                <span class="divider">|</span>
-                <i class="far fa-copyright"></i> 2026
-            </div>
+            <div><i class="fas fa-terminal"></i> Y2kDevWorks <i class="fas fa-terminal"></i></div>
+            <div style="font-size: 0.8rem;">Sistemas e Automação para Discord<span class="divider">|</span><i class="far fa-copyright"></i> 2026</div>
         </div>
     </div>
 
     <script>
         (function() {
             const canvas = document.getElementById('particle-canvas');
-            const ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d', { alpha: true, willReadFrequently: false });
             
             let width = window.innerWidth;
             let height = window.innerHeight;
             
-            // Configuração dos pontinhos amarelos
+            // ⭐ REDUZIDO: Apenas 18 partículas
             const particles = [];
-            const particleCount = 45; // Quantidade de pontinhos
+            const particleCount = 18;
             
-            // Cores dos pontinhos (tons de amarelo/laranja)
             const colors = [
-                'rgba(245, 158, 11, 0.4)',   // #f59e0b - warning
-                'rgba(251, 191, 36, 0.35)',  // #fbbf24 - warning-light
-                'rgba(253, 230, 138, 0.3)',  // #fde68a - amarelo claro
+                'rgba(245, 158, 11, 0.35)',
+                'rgba(251, 191, 36, 0.3)',
                 'rgba(245, 158, 11, 0.25)',
-                'rgba(217, 119, 6, 0.2)',    // #d97706 - âmbar
-                'rgba(252, 211, 77, 0.3)'    // #fcd34d - amarelo
+                'rgba(253, 230, 138, 0.2)'
             ];
             
-            // Inicializar partículas
             function initParticles() {
                 particles.length = 0;
                 for (let i = 0; i < particleCount; i++) {
                     particles.push({
                         x: Math.random() * width,
                         y: Math.random() * height,
-                        radius: Math.random() * 4 + 2, // 2px a 6px
+                        radius: Math.random() * 4 + 2,
                         color: colors[Math.floor(Math.random() * colors.length)],
-                        vx: (Math.random() - 0.5) * 0.06, // Velocidade bem lenta
-                        vy: (Math.random() - 0.5) * 0.06,
-                        blur: Math.random() * 6 + 2 // Borrão individual
+                        vx: (Math.random() - 0.5) * 0.035, // Ainda mais lento
+                        vy: (Math.random() - 0.5) * 0.035
                     });
                 }
             }
             
-            // Atualizar posições
             function updateParticles() {
-                for (let i = 0; i < particles.length; i++) {
-                    const p = particles[i];
-                    
-                    // Mover lentamente
+                for (let p of particles) {
                     p.x += p.vx;
                     p.y += p.vy;
                     
-                    // Quicar nas bordas (loop suave)
-                    if (p.x < -20) p.x = width + 20;
-                    if (p.x > width + 20) p.x = -20;
-                    if (p.y < -20) p.y = height + 20;
-                    if (p.y > height + 20) p.y = -20;
-                    
-                    // Pequena variação na velocidade (movimento orgânico)
-                    if (Math.random() < 0.008) {
-                        p.vx += (Math.random() - 0.5) * 0.015;
-                        p.vy += (Math.random() - 0.5) * 0.015;
-                        
-                        // Limitar velocidade
-                        const maxSpeed = 0.12;
-                        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-                        if (speed > maxSpeed) {
-                            p.vx = (p.vx / speed) * maxSpeed;
-                            p.vy = (p.vy / speed) * maxSpeed;
-                        }
-                    }
+                    if (p.x < -30) p.x = width + 30;
+                    if (p.x > width + 30) p.x = -30;
+                    if (p.y < -30) p.y = height + 30;
+                    if (p.y > height + 30) p.y = -30;
                 }
             }
             
-            // Desenhar partículas com borrão
             function drawParticles() {
                 ctx.clearRect(0, 0, width, height);
                 
-                // Aplicar blur no canvas inteiro para efeito de borrão
-                ctx.filter = 'blur(3px)';
-                
-                for (let i = 0; i < particles.length; i++) {
-                    const p = particles[i];
-                    
-                    // Desenhar círculo com glow
-                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3);
+                for (let p of particles) {
+                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2.5);
                     gradient.addColorStop(0, p.color);
-                    gradient.addColorStop(0.5, p.color.replace(/[\d\.]+\)$/g, '0.12)'));
                     gradient.addColorStop(1, 'transparent');
                     
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+                    ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
                     ctx.fillStyle = gradient;
                     ctx.fill();
                     
-                    // Núcleo do pontinho
-                    ctx.filter = 'blur(1px)';
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
+                    ctx.arc(p.x, p.y, p.radius * 0.7, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace(/[\d\.]+\)$/g, '0.55)');
                     ctx.fill();
-                    
-                    // Resetar filtro para o próximo
-                    ctx.filter = 'blur(3px)';
                 }
-                
-                // Resetar filtro
-                ctx.filter = 'none';
             }
             
-            // Conectar partículas próximas com linhas tênues
-            function drawConnections() {
-                ctx.filter = 'blur(2px)';
-                ctx.lineWidth = 0.5;
-                
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const p1 = particles[i];
-                        const p2 = particles[j];
-                        
-                        const dx = p1.x - p2.x;
-                        const dy = p1.y - p2.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                        // Conectar apenas partículas próximas
-                        if (distance < 100) {
-                            const opacity = (1 - distance / 100) * 0.06;
-                            ctx.strokeStyle = `rgba(245, 158, 11, ${opacity})`;
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-                
-                ctx.filter = 'none';
-            }
-            
-            // Loop de animação
             function animate() {
                 updateParticles();
                 drawParticles();
-                drawConnections();
                 requestAnimationFrame(animate);
             }
             
-            // Redimensionar canvas
             function resizeCanvas() {
                 width = window.innerWidth;
                 height = window.innerHeight;
@@ -676,17 +469,9 @@
                 initParticles();
             }
             
-            // Inicializar
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
             animate();
-            
-            // Reinicializar partículas quando a página ficar visível novamente
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden) {
-                    initParticles();
-                }
-            });
         })();
     </script>
 </body>
