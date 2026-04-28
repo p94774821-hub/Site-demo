@@ -113,12 +113,14 @@ sequenceDiagram
 
 ---
 
-✦ 𝙾𝙱𝙹𝙴𝙲𝚃𝙸𝚅𝙴
+## ✦ 𝙾𝙱𝙹𝙴𝙲𝚃𝙸𝚅𝙴
 
-✔ Apresentar sistemas profissionais para Discord
-✔ Facilitar o contato para orçamentos
-✔ Demonstrar experiência e portfólio
-✔ Oferecer design moderno e responsivo
+| Objetivo |
+|----------|
+| ✔ Apresentar sistemas profissionais para Discord |
+| ✔ Facilitar o contato para orçamentos |
+| ✔ Demonstrar experiência e portfólio |
+| ✔ Oferecer design moderno e responsivo |
 
 ---
 
