@@ -75,15 +75,16 @@ Footer Navegação, links sociais e copyright
 
 ---
 
-✦ 𝚃𝙴𝙲𝙽𝙾𝙻𝙾𝙶𝙸𝙴𝚂
+## ✦ 𝚃𝙴𝙲𝙽𝙾𝙻𝙾𝙶𝙸𝙴𝚂
 
-Tecnologia Uso
-HTML5 Estrutura semântica
-CSS3 Variáveis, animações, glassmorphism, responsivo
-JavaScript Fetch API, renderização dinâmica, animações
-Font Awesome Ícones vetoriais
-Google Fonts Inter, JetBrains Mono, Space Grotesk
-Railway Hospedagem do site e API
+| Tecnologia | Uso |
+|------------|-----|
+| `HTML5` | Estrutura semântica |
+| `CSS3` | Variáveis, animações, glassmorphism, responsivo |
+| `JavaScript` | Fetch API, renderização dinâmica, animações |
+| `Font Awesome` | Ícones vetoriais |
+| `Google Fonts` | Inter, JetBrains Mono, Space Grotesk |
+| `Railway` | Hospedagem do site e API |
 
 ---
 
