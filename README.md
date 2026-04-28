@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="https://i.postimg.cc/L5PdRvV0/Screenshot-20260410-001601-Chrome.jpg" width="100%">
 </p>
@@ -88,15 +87,16 @@ Railway Hospedagem do site e API
 
 ---
 
-✦ 𝙲𝙾𝙼𝙿𝙾𝙽𝙴𝙽𝚃𝚂
+## ✦ 𝙲𝙾𝙼𝙿𝙾𝙽𝙴𝙽𝚃𝚂
 
-Componente Descrição
-Loader Premium Animação de entrada com logo e shimmer
-Navbar Glass Efeito blur e transparência ao scrollar
-Hero Stats Contadores animados com IntersectionObserver
-Project Cards Cards com hover effects e borda gradiente
-Contact Methods Links estilizados com ícones e informações
-Theme Toggle Persistência via localStorage e API
+| Componente | Descrição |
+|------------|-----------|
+| `Loader Premium` | Animação de entrada com logo e shimmer |
+| `Navbar Glass` | Efeito blur e transparência ao scrollar |
+| `Hero Stats` | Contadores animados com IntersectionObserver |
+| `Project Cards` | Cards com hover effects e borda gradiente |
+| `Contact Methods` | Links estilizados com ícones e informações |
+| `Theme Toggle` | Persistência via localStorage e API |
 
 ---
 
